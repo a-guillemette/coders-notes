@@ -1,0 +1,106 @@
+span.glyphicon {
+    font-size: 1.5em;
+}
+
+span.glyphicon-plus {
+    vertical-align: text-bottom;
+}
+
+span.glyphicon-search {
+    font-size: 1em;
+}
+
+nav {
+    margin-bottom: 0px !important;
+}
+
+body {
+    //background-color: rgb(210, 210, 210);
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #2d2d2d;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.bars {
+    background-color: black !important;
+}
+
+.sidebar-nav>li {
+    line-height: 35px;
+}
+
+.sidebar-link-text {
+    padding-left: 20px;
+    vertical-align: super;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nested-links {
+    line-height: 25px;
+}
+
+.page-title {
+    font-weight: bold;
+}
+
+.floating-button {
+    position: fixed;
+    clear: both;
+    font-size: 3em;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 35px;
+    height: 63px;
+}
+
+.button-color {
+    color: rgb(191, 42, 59);
+}
+
+.logo {
+    height: 50px;
+    vertical-align: text-top;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.child {
+    box-sizing: border-box;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.14);
+    max-width: 350px;
+    background-color: rgb(255, 209, 128);
+}
+
+.child:hover {
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 250ms;
+}
+
+.child>h4 {
+    font-weight: bold;
+    margin: 5px;
+}
+
+.child>p {
+    margin: 5px;
+}
+
+.child>img {
+    width: 100%;
+}
