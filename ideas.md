@@ -8,5 +8,6 @@
 - Draw on notes
 - List/grid view
 - Notes background color (presets, to keep stuff presentable)
-- Use markdown
+- Use markdown https://github.com/adam-p/markdown-here
 - Pin notes (aka favorites?)
+- Angular2 for front-end, node.js for back-end and MongoDB
