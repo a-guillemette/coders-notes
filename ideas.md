@@ -2,3 +2,11 @@
 - Points system and comments
 - Most points, most comments, etc pages
 - Public or private notes
+- Archive / Trash can
+- Labels
+- Notifications on comments + points threshold
+- Draw on notes
+- List/grid view
+- Notes background color (presets, to keep stuff presentable)
+- Use markdown
+- Pin notes (aka favorites?)
