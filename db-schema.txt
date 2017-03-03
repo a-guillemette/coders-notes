@@ -1,0 +1,81 @@
+PK: Primary Key
+FK: Foreign Key
+ZF: Zero Fill (unsigned)
+
+| User
+==================================
+bigint PK ZF  | ID
+varchar(255)  | Email
+varchar(100)  | Name
+varchar(100)  | Password
+
+| Status (Static table)
+==================================
+tinyint PK ZF | ID
+varchar(25)   | EnumValueName
+----------- Values ----------------
+            1 | Normal
+            2 | Pinned
+            3 | Archived
+            4 | Deleted
+
+| Color
+==================================
+tinyint PK ZF | ID
+varchar(25)   | EnumValueName
+varchar(50)   | Description
+int ZF        | ColorARGB
+
+| Note
+==================================
+bigint PK ZF  | ID
+tinyint FK ZF | StatusID
+varchar(100)  | Title
+text          | Description (Markdown)
+datetime      | CreatedDateTime
+datetime      | EditedDateTime
+bigint FK ZF  | CreatedByUserID
+bigint FK ZF  | EditedByUserID
+tinyint ZF    | ColorID
+
+| Snippet
+==================================
+bigint PK ZF  | ID
+int FK ZF     | LanguageID
+varchar(100)  | Title
+text          | Code
+
+| Image
+==================================
+bigint PK ZF  | ID
+varchar(255)  | Path
+varchar(255)  | Filename
+varchar(250)  | Description
+
+| Language
+==================================
+int PK ZF     | ID
+varchar(50)   | Name
+varchar(10)   | Extension
+varchar(50)   | Icon
+
+| Label
+==================================
+bigint PK ZF  | ID
+varchar(20)   | Title
+carchar(250)  | Description
+
+| NoteLabel
+==================================
+bigint FK ZF  | NoteID
+bigint FK ZF  | LabelID
+
+| NoteSnippet
+==================================
+bigint FK ZF  | NoteID
+bigint FK ZF  | SnippetID
+
+| NoteImage
+==================================
+bigint FK ZF  | NoteID
+bigint FK ZF  | SnippetID
