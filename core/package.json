@@ -1,0 +1,26 @@
+{
+    "name": "@codersnotes/core",
+    "version": "0.0.1",
+    "description": "Shared code between Coder's Notes client and api",
+    "main": "dist/app",
+    "typings": "dist/app",
+    "scripts": {
+        "build": "npm-run-all clean compile",
+        "clean": "shx rm -rf ./dist",
+        "compile": "tsc --pretty",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "npm-run-all clean watch:ts",
+        "watch:ts": "tsc --watch --pretty"
+    },
+    "author": "Antoine Guillemette <https://github.com/antoine3868>",
+    "contributors": [
+        "Yannick Beauchamp-H <https://github.com/Zihark17>"
+    ],
+    "license": "Apache-2.0",
+    "private": true,
+    "devDependencies": {
+        "npm-run-all": "^4.0.2",
+        "shx": "^0.2.2",
+        "typescript": "^2.2.1"
+    }
+}

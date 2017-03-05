@@ -1,0 +1,35 @@
+{
+  "name": "@codersnotes/api",
+  "version": "0.0.1",
+  "description": "Coder's Notes API",
+  "main": "dist/api.js",
+  "scripts": {
+    "build": "npm-run-all clean compile",
+    "clean": "shx rm -rf ./dist",
+    "compile": "tsc --pretty",
+    "start": "npm-run-all build --parallel watch:ts start:server",
+    "start:server": "nodemon --watch dist dist/api.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm-run-all clean watch:ts",
+    "watch:ts": "tsc --watch --pretty"
+  },
+  "author": "Antoine Guillemette <https://github.com/antoine3868>",
+  "contributors": [
+    "Yannick Beauchamp-H <https://github.com/Zihark17>"
+  ],
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "@codersnotes/core": "^0.0.1",
+    "mongodb": "^2.2.24",
+    "restify": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^2.1.41",
+    "@types/restify": "^2.0.41",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
+    "shx": "^0.2.2",
+    "typescript": "^2.2.1"
+  }
+}
