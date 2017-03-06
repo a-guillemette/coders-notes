@@ -5,14 +5,14 @@ const serverOptions: ServerOptions = {
 
 };
 
-const server: Server = createServer(serverOptions);
+export const server: Server = createServer(serverOptions);
 
 server.get('hello/:name', (req, res, next) => {
-    res.send('Hello ' + req.params.name);
+    res.send(200, 'Hello ' + req.params.name);
     next();
 });
 
 server.listen(port, () => {
     console.log('\r\n');
-    console.log('%s listening at %s', server.name, server.url);
+    console.log('%s listening at %s\r\n', server.name, server.url);
 });

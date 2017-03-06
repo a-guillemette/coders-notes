@@ -14,9 +14,12 @@
         "target": "es5",
         "outDir": "dist/",
         "rootDir": "src/",
-        "lib": ["es5"]
+        "lib": ["es5","dom"]
     },
     "files": [
         "src/api.ts"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

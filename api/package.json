@@ -5,11 +5,15 @@
   "main": "dist/api.js",
   "scripts": {
     "build": "npm-run-all clean compile",
-    "clean": "shx rm -rf ./dist",
+    "clean": "npm-run-all --parallel clean:dist clean:test",
+    "clean:dist": "shx rm -rf ./dist",
+    "clean:test": "shx rm -rf ./out-test",
     "compile": "tsc --pretty",
     "start": "npm-run-all build --parallel watch:ts start:server",
     "start:server": "nodemon --watch dist dist/api.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm-run-all clean:test test:compile test:exec",
+    "test:compile": "tsc -p test",
+    "test:exec": "mocha out-test/test || exit 0",
     "watch": "npm-run-all clean watch:ts",
     "watch:ts": "tsc --watch --pretty"
   },
@@ -25,11 +29,17 @@
     "restify": "^4.3.0"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.39",
     "@types/mongodb": "^2.1.41",
     "@types/restify": "^2.0.41",
+    "@types/supertest": "^2.0.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "shx": "^0.2.2",
+    "supertest": "^3.0.0",
     "typescript": "^2.2.1"
   }
 }
