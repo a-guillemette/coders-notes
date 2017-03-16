@@ -16,7 +16,7 @@ export class Note {
     editedDate?: Date;
     createdByUserId: UserId;
     editedByUserId?: UserId;
-    ColorId: ColorId | null;
+    colorId: ColorId | null;
     labels: Array<LabelId>;
     snippets?: Array<Snippet>;
     images?: Array<Image>;
