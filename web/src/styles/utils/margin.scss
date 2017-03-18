@@ -1,0 +1,41 @@
+.m0 { margin: 0 !important; }
+.m1 { margin: $space-1 !important; }
+.m2 { margin: $space-1 !important; }
+.m3 { margin: $space-1 !important; }
+.m4 { margin: $space-1 !important; }
+
+.mt0 { margin-top: 0 !important; }
+.mt1 { margin-top: $space-1 !important; }
+.mt2 { margin-top: $space-1 !important; }
+.mt3 { margin-top: $space-1 !important; }
+.mt4 { margin-top: $space-1 !important; }
+
+.mb0 { margin-bottom: 0 !important; }
+.mb1 { margin-bottom: $space-1 !important; }
+.mb2 { margin-bottom: $space-1 !important; }
+.mb3 { margin-bottom: $space-1 !important; }
+.mb4 { margin-bottom: $space-1 !important; }
+
+.ml0 { margin-left: 0 !important; }
+.ml1 { margin-left: $space-1 !important; }
+.ml2 { margin-left: $space-1 !important; }
+.ml3 { margin-left: $space-1 !important; }
+.ml4 { margin-left: $space-1 !important; }
+
+.mr0 { margin-right: 0 !important; }
+.mr1 { margin-right: $space-1 !important; }
+.mr2 { margin-right: $space-1 !important; }
+.mr3 { margin-right: $space-1 !important; }
+.mr4 { margin-right: $space-1 !important; }
+
+.mx0 { @extend .ml0; @extend .mr0; }
+.mx1 { @extend .ml1; @extend .mr1; }
+.mx2 { @extend .ml2; @extend .mr2; }
+.mx3 { @extend .ml3; @extend .mr3; }
+.mx4 { @extend .ml4; @extend .mr4; }
+
+.my0 { @extend .mt0; @extend .mb0; }
+.my1 { @extend .mt1; @extend .mb1; }
+.my2 { @extend .mt2; @extend .mb2; }
+.my3 { @extend .mt3; @extend .mb3; }
+.my4 { @extend .mt4; @extend .mb4; }

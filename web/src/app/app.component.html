@@ -1,4 +1,21 @@
-<h1>
-  {{title}}
-</h1>
-<router-outlet></router-outlet>
+<md-sidenav-container fullscreen>
+    <md-sidenav [mode]="sidenavMode" #sidenav>
+        <button md-button (click)="toggleSidenavMode()">
+            Toggle side nav mode
+        </button>
+    </md-sidenav>
+
+    <md-toolbar color="primary">
+        <button md-button class="px0 wmin3 mr2" (click)="sidenav.toggle()">
+            <i class="material-icons">menu</i>
+        </button>
+
+        Coder's Notes
+
+        <span class="fill-space"></span>
+
+        Right
+    </md-toolbar>
+
+    <router-outlet></router-outlet>
+</md-sidenav-container>

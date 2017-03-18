@@ -1,0 +1,41 @@
+.p0 { padding: 0 !important; }
+.p1 { padding: $space-1 !important; }
+.p2 { padding: $space-1 !important; }
+.p3 { padding: $space-1 !important; }
+.p4 { padding: $space-1 !important; }
+
+.pt0 { padding-top: 0 !important; }
+.pt1 { padding-top: $space-1 !important; }
+.pt2 { padding-top: $space-1 !important; }
+.pt3 { padding-top: $space-1 !important; }
+.pt4 { padding-top: $space-1 !important; }
+
+.pb0 { padding-bottom: 0 !important; }
+.pb1 { padding-bottom: $space-1 !important; }
+.pb2 { padding-bottom: $space-1 !important; }
+.pb3 { padding-bottom: $space-1 !important; }
+.pb4 { padding-bottom: $space-1 !important; }
+
+.pl0 { padding-left: 0 !important; }
+.pl1 { padding-left: $space-1 !important; }
+.pl2 { padding-left: $space-1 !important; }
+.pl3 { padding-left: $space-1 !important; }
+.pl4 { padding-left: $space-1 !important; }
+
+.pr0 { padding-right: 0 !important; }
+.pr1 { padding-right: $space-1 !important; }
+.pr2 { padding-right: $space-1 !important; }
+.pr3 { padding-right: $space-1 !important; }
+.pr4 { padding-right: $space-1 !important; }
+
+.px0 { @extend .pl0; @extend .pr0; }
+.px1 { @extend .pl1; @extend .pr1; }
+.px2 { @extend .pl2; @extend .pr2; }
+.px3 { @extend .pl3; @extend .pr3; }
+.px4 { @extend .pl4; @extend .pr4; }
+
+.py0 { @extend .pt0; @extend .pb0; }
+.py1 { @extend .pt1; @extend .pb1; }
+.py2 { @extend .pt2; @extend .pb2; }
+.py3 { @extend .pt3; @extend .pb3; }
+.py4 { @extend .pt4; @extend .pb4; }

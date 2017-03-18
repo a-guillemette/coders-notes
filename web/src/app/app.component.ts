@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cn-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'cn-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'cn works!';
+    // TODO: Automatically set based on width
+    sidenavMode: 'side' | 'over' = 'side';
+
+    toggleSidenavMode() {
+        this.sidenavMode = this.sidenavMode === 'side' ? 'over' : 'side';
+    }
 }
