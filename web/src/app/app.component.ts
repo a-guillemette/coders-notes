@@ -8,8 +8,4 @@ import { Component } from '@angular/core';
 export class AppComponent {
     // TODO: Automatically set based on width
     sidenavMode: 'side' | 'over' = 'side';
-
-    toggleSidenavMode() {
-        this.sidenavMode = this.sidenavMode === 'side' ? 'over' : 'side';
-    }
 }

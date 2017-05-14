@@ -1,20 +1,18 @@
 <md-sidenav-container fullscreen>
     <md-sidenav [mode]="sidenavMode" #sidenav>
-        <button md-button (click)="toggleSidenavMode()">
-            Toggle side nav mode
-        </button>
+        <cn-side-nav></cn-side-nav>
     </md-sidenav>
 
     <md-toolbar color="primary">
         <button md-button class="px0 wmin3 mr2" (click)="sidenav.toggle()">
-            <i class="material-icons">menu</i>
+            <md-icon>menu</md-icon>
         </button>
 
-        Coder's Notes
+        <span>Coder's Notes</span>
 
         <span class="fill-space"></span>
 
-        Right
+        <button md-button>Login</button>
     </md-toolbar>
 
     <router-outlet></router-outlet>

@@ -1,7 +1,7 @@
 // *** Import Reflect Metadata only once ***
 import 'reflect-metadata';
 
-import { createServer, Server, ServerOptions } from "restify";
+import { createServer, Server, ServerOptions } from 'restify';
 import * as _ from 'lodash';
 
 import { HttpMethod } from './http-method.enum';
@@ -17,7 +17,7 @@ const serverOptions: ServerOptions = {
 export const server: Server = createServer(serverOptions);
 
 if (debug) {
-    server.use(function(req, res, next) {
+    server.use(function (req, res, next) {
         console.log('%s %s', _.padStart(req.method, 6), req.url);
         next();
     });
@@ -28,7 +28,7 @@ const nbControllers = Controllers.length;
 
 console.log('\r\nRegistering routes for %s controllers...', nbControllers);
 
-for (let i = 0; i < nbControllers; i++) {
+for (let i = 0; i  < nbControllers; i++) {
     // Instantiate controller
     const controller = new Controllers[i]();
 
