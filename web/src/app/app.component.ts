@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    // TODO: Automatically set based on width
+    // TODO: Automatically set based on width (840px?)
     sidenavMode: 'side' | 'over' = 'side';
 }
