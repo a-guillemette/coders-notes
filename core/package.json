@@ -22,7 +22,7 @@
     "npm-run-all": "^4.0.2",
     "shx": "^0.2.2",
     "tslint": "^5.2.0",
-    "typescript": "^2.3.0"
+    "typescript": "^2.4.0"
   },
   "dependencies": {}
 }

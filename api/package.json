@@ -9,13 +9,14 @@
     "clean:dist": "shx rm -rf ./dist",
     "clean:test": "shx rm -rf ./out-test",
     "compile": "tsc --pretty",
-    "start": "npm-run-all build --parallel watch:ts start:server",
-    "start:server": "nodemon --watch dist dist/api.js",
+    "start": "npm-run-all clean --parallel watch:ts start:server",
+    "start:server": "wait-on dist/api.js && nodemon --delay 250ms --watch dist dist/api.js",
     "test": "npm-run-all clean:test test:compile test:exec",
     "test:compile": "tsc -p test",
     "test:exec": "mocha out-test/test || exit 0",
     "watch": "npm-run-all clean watch:ts",
-    "watch:ts": "tsc --watch --pretty"
+    "watch:ts": "tsc --watch --pretty",
+    "wait-on:build": "wait-on dist/api.js"
   },
   "author": "Antoine Guillemette <https://github.com/antoine3868>",
   "contributors": [
@@ -24,7 +25,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "@codersnotes/core": "^0.0.1",
+    "@codersnotes/core": "file:../core",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.26",
     "reflect-metadata": "^0.1.10",
@@ -45,6 +46,7 @@
     "shx": "^0.2.2",
     "supertest": "^3.0.0",
     "tslint": "^5.2.0",
-    "typescript": "^2.3.0"
+    "typescript": "^2.4.0",
+    "wait-on": "^2.0.2"
   }
 }
