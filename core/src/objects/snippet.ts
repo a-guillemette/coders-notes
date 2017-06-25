@@ -4,7 +4,7 @@ export type SnippetId = number;
 
 export class Snippet {
     _id: SnippetId;
-	languageId: number;
+    languageId: LanguageId;
     title: string;
     code: string;
 }

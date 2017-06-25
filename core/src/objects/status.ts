@@ -3,6 +3,7 @@ export type StatusId = number;
 export class Status {
     _id: StatusId;
     enumValueName: string;
+    displayName: string;
 }
 
 export enum StatusEnum {

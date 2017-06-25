@@ -1,23 +1,26 @@
-import { ColorId } from './color';
-import { Image } from './image';
-import { LabelId } from './label';
-import { Snippet } from './snippet';
-import { StatusId } from './status';
-import { UserId } from './user';
+import { ColorId }      from './color';
+import { FileId }       from './file';
+import { LabelId }      from './label';
+import { Snippet }      from './snippet';
+import { StatusId }     from './status';
+import { UserId }       from './user';
+import { VisibilityId } from './visibility';
 
 export type NoteId = number;
 
 export class Note {
     _id: NoteId;
-    status: StatusId;
+    forkedFromId?: NoteId;
+    statusId: StatusId;
+    visibilityId: VisibilityId;
     title: string;
     description: string;
     createdDate: Date;
-    editedDate?: Date;
     createdByUserId: UserId;
+    editedDate?: Date;
     editedByUserId?: UserId;
-    colorId: ColorId | null;
-    labels: Array<LabelId>;
+    colorId?: ColorId;
+    labels?: Array<LabelId>;
     snippets?: Array<Snippet>;
-    images?: Array<Image>;
+    images?: Array<FileId>;
 }
