@@ -10,7 +10,7 @@
     "eofline": true,
     "forin": true,
     "import-blacklist": [true, "rxjs"],
-    "import-spacing": true,
+    "import-spacing": false,
     "indent": [
       true,
       "spaces"
