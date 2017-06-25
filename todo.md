@@ -1,3 +1,4 @@
 # To-do List
-- Figure out MongoDB (MongoDB Node.JS Driver)
-- Create discreet seamless texture
+- Implement authentication controller to create Json Web Token
+- Create login page
+- Figure out refresh token
