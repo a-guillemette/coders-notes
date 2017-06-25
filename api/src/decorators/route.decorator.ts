@@ -40,15 +40,15 @@ export function HttpGet(target: Object, propertyKey: string | symbol, descriptor
 }
 
 export function HttpPost(target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
-    setMethod(HttpMethod.get, target, propertyKey);
+    setMethod(HttpMethod.post, target, propertyKey);
 }
 
 export function HttpPut(target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
-    setMethod(HttpMethod.get, target, propertyKey);
+    setMethod(HttpMethod.put, target, propertyKey);
 }
 
 export function HttpDelete(target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
-    setMethod(HttpMethod.get, target, propertyKey);
+    setMethod(HttpMethod.delete, target, propertyKey);
 }
 
 export function getControllerRoutes(target: Object): Array<RouteParams> {
