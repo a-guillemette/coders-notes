@@ -1,9 +1,9 @@
 import { Request, Response, Next } from 'restify';
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
 
-@RoutePrefix('authentication')
+@RoutePrefix('token')
 export class AuthenticationController {
-    @HttpPost
+    @HttpPost @Route('')
     authenticate(req: Request, res: Response, next: Next) {
         const authenticationRequest = req.body;
 
