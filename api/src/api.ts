@@ -1,7 +1,7 @@
 // *** Import Reflect Metadata only once ***
 import 'reflect-metadata';
 
-import { createServer, Server, ServerOptions } from 'restify';
+import { createServer, Server, ServerOptions, bodyParser } from 'restify';
 import * as _ from 'lodash';
 
 import { HttpMethod } from './http-method.enum';
@@ -15,6 +15,8 @@ const serverOptions: ServerOptions = {
 };
 
 export const server: Server = createServer(serverOptions);
+
+server.use(bodyParser());
 
 if (debug) {
     server.use(function (req, res, next) {
@@ -41,7 +43,20 @@ for (let i = 0; i  < nbControllers; i++) {
     for (let j = 0; j < nbRoutes; j++) {
         const route: RouteParams = routes[j];
         console.log('    %s', route.route);
-        server.get(route.route, controller[route.propertyKey]);
+        switch (route.method) {
+            case HttpMethod.get:
+                server.get(route.route, controller[route.propertyKey].bind(controller));
+                break;
+            case HttpMethod.post:
+                server.post(route.route, controller[route.propertyKey].bind(controller));
+                break;
+            case HttpMethod.put:
+                server.put(route.route, controller[route.propertyKey].bind(controller));
+                break;
+            case HttpMethod.delete:
+                server.del(route.route, controller[route.propertyKey].bind(controller));
+                break;
+        }
     }
 }
 

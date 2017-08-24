@@ -20,7 +20,6 @@ export function Route(route: string) {
     }
 
     return function (target: Object, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
-        console.log('Route', target);
         let routeParam: RouteParams = Reflect.getMetadata('route', target, propertyKey);
         if (!routeParam) {
             routeParam = {
