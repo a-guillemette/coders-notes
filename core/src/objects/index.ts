@@ -1,4 +1,4 @@
-export { Color, ColorId }                           from './color';
+export { Theme, ThemeId }                           from './theme';
 export { File, FileId }                             from './file';
 export { Label, LabelId }                           from './label';
 export { Language, LanguageId }                     from './language';

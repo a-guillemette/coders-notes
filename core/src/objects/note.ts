@@ -1,4 +1,4 @@
-import { ColorId }      from './color';
+import { ThemeId }      from './theme';
 import { FileId }       from './file';
 import { LabelId }      from './label';
 import { Snippet }      from './snippet';
@@ -19,7 +19,7 @@ export class Note {
     createdByUserId: UserId;
     editedDate?: Date;
     editedByUserId?: UserId;
-    colorId?: ColorId;
+    colorId?: ThemeId;
     labels?: Array<LabelId>;
     snippets?: Array<Snippet>;
     images?: Array<FileId>;
