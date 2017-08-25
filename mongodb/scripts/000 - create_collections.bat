@@ -1,7 +1,18 @@
-@Echo Off
+@echo off
+
+setlocal EnableDelayedExpansion
+
 SET user="codersnotes-api"
 SET pwd="Password1"
 SET /P nrun=Start scripts from number (###):
-mongo codersnotes --username %user% --password %pwd% "001 - theme.collection.js"
-mongo codersnotes --username %user% --password %pwd% "002 - status.collection.js"
+
+for %%a in (*.js) do (
+    set filename=%%a
+    set number=!filename:~0,3!
+
+    IF /I !number! GEQ !nrun! (
+        echo Run script #!number!
+        mongo codersnotes --username "!user!" --password "!pwd!" "%%a"
+    )
+)
 pause
