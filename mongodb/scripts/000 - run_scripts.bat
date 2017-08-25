@@ -2,7 +2,7 @@
 
 setlocal EnableDelayedExpansion
 
-SET user="codersnotes-api"
+SET user="admin"
 SET pwd="Password1"
 SET /P nrun=Start scripts from number (###):
 

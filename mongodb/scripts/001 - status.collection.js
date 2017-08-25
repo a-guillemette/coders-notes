@@ -1,7 +1,3 @@
-//load("path/to/another/file.js");
-
-//db = new Mongo().getDB("codernotes");
-//db.auth("codersnotes-api", "Password1");
 var collectionName = "status";
 print("using db: " + db.getName());
 
