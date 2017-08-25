@@ -41,17 +41,9 @@ export class AuthenticationController {
             res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_request));
             next();
         } else {
-            MongoClient.connect('mongodb://codersnotes-api:Password1@localhost:27017/codersnotes', (err, db) => {
-                if (!err) {
-                    console.log('Connected!');
-                    db.close();
-                    res.send(200);
-                } else {
-                    console.log('MongoDB error', err);
-                    res.send(500);
-                }
-                next();
-            });
+            console.log('Do stuff');
+            res.send(200);
+            next();
         }
     }
 }

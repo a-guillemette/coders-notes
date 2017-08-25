@@ -1,5 +1,6 @@
 export interface Config {
     tokenSecretKey: string;
+    databaseConnectionString: string;
 }
 
 /*
