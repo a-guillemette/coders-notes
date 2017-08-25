@@ -1,12 +1,13 @@
 import { Request, Response, Next } from 'restify';
 import * as _ from 'lodash';
 
-import { MongoClient } from 'mongodb';
+import { DatabaseService } from '../services/database.service';
 
 import {
     AuthenticationRequest,
     AuthenticationError,
-    AuthenticationErrorCode
+    AuthenticationErrorCode,
+    User
 } from '@codersnotes/core';
 
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
@@ -41,7 +42,12 @@ export class AuthenticationController {
             res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_request));
             next();
         } else {
-            console.log('Do stuff');
+            const userSearchFilter = new User();
+            userSearchFilter.email = username;
+
+            const collection = DatabaseService.db.collection<User>('user');
+            console.log(collection.findOne(userSearchFilter));
+
             res.send(200);
             next();
         }

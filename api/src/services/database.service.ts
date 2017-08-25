@@ -1,5 +1,7 @@
 import { MongoClient, Db, MongoError } from 'mongodb';
 
+import { config } from '../config';
+
 export class DatabaseService {
     private static _instance: DatabaseService;
     static get instance(): DatabaseService {
@@ -22,7 +24,7 @@ export class DatabaseService {
     }
 
     connect(onSuccess: (db: Db) => void, onError: (error: MongoError) => void) {
-        MongoClient.connect('mongodb://codersnotes-api:Password1@localhost:27017/codersnotes', (error, db) => {
+        MongoClient.connect(config.databaseConnectionString, (error, db) => {
             if (!error) {
                 onSuccess(db);
             } else {
