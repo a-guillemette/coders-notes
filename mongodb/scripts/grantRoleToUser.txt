@@ -1,0 +1,6 @@
+// https://docs.mongodb.com/manual/reference/built-in-roles/
+mongo
+use admin
+db.auth("admin", "abc123")
+use codersnotes
+db.runCommand({ grantRolesToUser: "codersnotes-api", roles: [ "dbAdmin" ]})
