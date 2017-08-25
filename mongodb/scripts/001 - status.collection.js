@@ -1,10 +1,7 @@
-var collectionName = "status";
-print("using db: " + db.getName());
+print(db.status.drop() ? "successfuly dropped status collection":"status collection does not exist");
 
-print(db.status.drop() ? "successfuly dropped " + collectionName + " collection":collectionName + " collection does not exist");
-db.createCollection(collectionName, {
+db.createCollection("status", {
     autoIndexId: false
-    //max: 4
 });
 try {
     db.status.insertMany([
@@ -13,7 +10,7 @@ try {
         { _id: 2, enumValueName: "archived", displayName: "Archived" },
         { _id: 3, enumValueName: "deleted", displayName: "Deleted" }
     ]);
-    print("successfuly populated " + collectionName + " collection")
+    print("successfuly populated status collection")
 } catch (e) {
     print(e);
 }

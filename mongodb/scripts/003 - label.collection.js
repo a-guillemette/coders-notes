@@ -1,7 +1,5 @@
-var COLLECTION_NAME = "label";
-print("using db: " + db.getName());
+print(db.label.drop() ? "successfuly dropped label collection":"label collection does not exist");
 
-print(db.status.drop() ? "successfuly dropped " + COLLECTION_NAME + " collection":COLLECTION_NAME + " collection does not exist");
-db.createCollection(COLLECTION_NAME, {
+db.createCollection("label", {
     autoIndexId: true
 });
