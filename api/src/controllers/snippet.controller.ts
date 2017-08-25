@@ -1,12 +1,30 @@
-import {HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
+import {HttpDelete, HttpGet, HttpPost, HttpPut, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
 
 
-@RoutePrefix('theme')
+@RoutePrefix('snippet')
 export class SnippetController {
-    @HttpPost @Route('')
-    getSnippets(req: Request, res: Response, next: Next) {
-        res.send(200, 'want some fuk');
+    @HttpGet @Route('/:id')
+    getSnippet(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPost @Route('/:id')
+    editSnippet(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPut @Route('')
+    addSnippet(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpDelete @Route(':id')
+    removeSnippet(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
         next();
     }
 }

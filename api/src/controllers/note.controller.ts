@@ -1,12 +1,30 @@
-import {HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
+import {HttpDelete, HttpGet, HttpPost, HttpPut, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
 
 
-@RoutePrefix('theme')
+@RoutePrefix('note')
 export class NoteController {
-    @HttpPost @Route('')
-    getNotes(req: Request, res: Response, next: Next) {
-        res.send(200, 'want some fuk');
+    @HttpGet @Route('/:id')
+    getNote(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPost @Route('/:id')
+    editNote(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPut @Route('')
+    addNote(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpDelete @Route(':id')
+    removeNote(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
         next();
     }
 }

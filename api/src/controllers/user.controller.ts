@@ -1,12 +1,31 @@
-import {HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
+import {HttpGet, HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
+import {HttpDelete, HttpPut} from '../../dist/decorators/route.decorator';
 
 
-@RoutePrefix('theme')
+@RoutePrefix('user')
 export class UserController {
-    @HttpPost @Route('')
-    getUsers(req: Request, res: Response, next: Next) {
-        res.send(200, 'want some fuk');
+    @HttpGet @Route('/:id')
+    getUser(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPost @Route('/:id')
+    editUser(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPut @Route('')
+    addUser(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpDelete @Route(':id')
+    removeUser(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
         next();
     }
 }

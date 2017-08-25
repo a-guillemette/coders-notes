@@ -1,11 +1,11 @@
-import {HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
+import {HttpGet, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
 import {StatusEnum} from '@codersnotes/core';
 
 
 @RoutePrefix('status')
 export class StatusController {
-    @HttpPost @Route('')
+    @HttpGet @Route('')
     getStatuses(req: Request, res: Response, next: Next) {
         res.send(200, [
             {
