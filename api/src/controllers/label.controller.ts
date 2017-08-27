@@ -1,6 +1,6 @@
 import {HttpDelete, HttpPost, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
-import {HttpGet} from '../../dist/decorators/route.decorator';
+import {HttpGet} from '../decorators/route.decorator';
 
 
 @RoutePrefix('label')
