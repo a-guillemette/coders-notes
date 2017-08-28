@@ -1,4 +1,4 @@
-export type VisibilityId = number;
+export type VisibilityId = VisibilityEnum;
 
 export class Visibility {
     _id: VisibilityId;

@@ -11,10 +11,10 @@
         "noImplicitThis": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es5",
+        "target": "es6",
         "outDir": "dist/",
         "rootDir": "src/",
-        "lib": ["es5","dom"]
+        "lib": ["es2016", "dom"]
     },
     "files": [
         "src/api.ts"

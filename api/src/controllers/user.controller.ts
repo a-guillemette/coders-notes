@@ -11,20 +11,20 @@ export class UserController {
         next();
     }
 
-    @HttpPost @Route('/:id')
+    @HttpPost @Route('')
+    createUser(req: Request, res: Response, next: Next) {
+        res.send(200, 'want som fk');
+        next();
+    }
+
+    @HttpPut @Route('/:id')
     editUser(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }
 
-    @HttpPut @Route('')
-    addUser(req: Request, res: Response, next: Next) {
-        res.send(200, 'want som fk');
-        next();
-    }
-
     @HttpDelete @Route(':id')
-    removeUser(req: Request, res: Response, next: Next) {
+    deleteUser(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }

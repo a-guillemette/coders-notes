@@ -1,4 +1,4 @@
-export type StatusId = number;
+export type StatusId = StatusEnum;
 
 export class Status {
     _id: StatusId;
