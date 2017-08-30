@@ -9,7 +9,7 @@ export class ThemeController {
     getThemes(req: Request, res: Response, next: Next) {
         DatabaseService.db.collection('theme').find().toArray(function (err, documents) {
             res.send(200, documents);
+            next();
         });
-        next();
     }
 }

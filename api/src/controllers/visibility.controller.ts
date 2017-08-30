@@ -9,7 +9,7 @@ export class VisibilityController {
     getVisibilities(req: Request, res: Response, next: Next) {
         DatabaseService.db.collection('visibility').find().toArray(function (err, documents) {
             res.send(200, documents);
+            next();
         });
-        next();
     }
 }
