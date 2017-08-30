@@ -26,6 +26,7 @@ export class DatabaseService {
     connect(onSuccess: (db: Db) => void, onError: (error: MongoError) => void) {
         MongoClient.connect(config.databaseConnectionString, (error, db) => {
             if (!error) {
+                this._db = db;
                 onSuccess(db);
             } else {
                 onError(error);

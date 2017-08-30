@@ -3,7 +3,7 @@ import { Prop } from '../decorators/prop.decorator';
 
 import { FileId } from './file';
 
-export type UserId = number;
+export type UserId = any;
 
 export class User extends DataObject {
     @Prop() _id: UserId;

@@ -1,6 +1,6 @@
 import { LanguageId } from './language';
 
-export type SnippetId = number;
+export type SnippetId = any;
 
 export class Snippet {
     _id: SnippetId;

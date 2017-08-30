@@ -6,7 +6,7 @@ import { StatusId }     from './status';
 import { UserId }       from './user';
 import { VisibilityId } from './visibility';
 
-export type NoteId = number;
+export type NoteId = any;
 
 export class Note {
     _id: NoteId;

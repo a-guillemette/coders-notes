@@ -1,4 +1,4 @@
-export type FileId = number;
+export type FileId = any;
 
 export class File {
     _id: FileId;

@@ -11,13 +11,13 @@ export class SnippetController {
     }
 
     @HttpPost @Route('/:id')
-    editSnippet(req: Request, res: Response, next: Next) {
+    addSnippet(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }
 
     @HttpPut @Route('')
-    addSnippet(req: Request, res: Response, next: Next) {
+    editSnippet(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }

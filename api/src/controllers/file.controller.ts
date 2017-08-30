@@ -12,7 +12,7 @@ export class FileController {
     }
 
     @HttpPost @Route(':id')
-    editFile(req: Request, res: Response, next: Next) {
+    addFile(req: Request, res: Response, next: Next) {
         res.send(200, 'want some fuk');
         next();
     }

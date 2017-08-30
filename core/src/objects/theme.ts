@@ -1,4 +1,4 @@
-export type ThemeId = number;
+export type ThemeId = any;
 
 export class Theme {
     _id: ThemeId;

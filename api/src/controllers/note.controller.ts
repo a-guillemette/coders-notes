@@ -11,13 +11,13 @@ export class NoteController {
     }
 
     @HttpPost @Route('/:id')
-    editNote(req: Request, res: Response, next: Next) {
+    addNote(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }
 
     @HttpPut @Route('')
-    addNote(req: Request, res: Response, next: Next) {
+    editNote(req: Request, res: Response, next: Next) {
         res.send(200, 'want som fk');
         next();
     }
