@@ -1,15 +1,15 @@
-print(db.visibility.drop() ? "successfuly dropped visibility collection":"visibility collection does not exist");
+print(db.Visibility.drop() ? "successfuly dropped Visibility collection":"Visibility collection does not exist");
 
-db.createCollection("visibility", {
+db.createCollection("Visibility", {
     autoIndexId: false
 });
 try {
-    db.visibility.insertMany([
+    db.Visibility.insertMany([
         { _id: 0, enumValueName: "private", displayName: "Private" },
         { _id: 1, enumValueName: "unlisted", displayName: "Unlisted" },
         { _id: 2, enumValueName: "public", displayName: "Public" }
     ]);
-    print("successfuly populated visibility collection")
+    print("successfuly populated Visibility collection")
 } catch (e) {
     print(e);
 }

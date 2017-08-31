@@ -1,5 +1,5 @@
-print(db.note.drop() ? "successfuly dropped note collection":"note collection does not exist");
+print(db.Note.drop() ? "successfuly dropped Note collection":"Note collection does not exist");
 
-db.createCollection("note", {
+db.createCollection("Note", {
     autoIndexId: true
 });

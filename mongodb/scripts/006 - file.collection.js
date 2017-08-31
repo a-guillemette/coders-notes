@@ -1,5 +1,5 @@
-print(db.file.drop() ? "successfuly dropped file collection":"file collection does not exist");
+print(db.File.drop() ? "successfuly dropped File collection":"File collection does not exist");
 
-db.createCollection("file", {
+db.createCollection("File", {
     autoIndexId: true
 });

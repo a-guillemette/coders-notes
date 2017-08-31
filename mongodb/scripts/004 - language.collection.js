@@ -1,17 +1,17 @@
-print(db.language.drop() ? "successfuly dropped language collection":"language collection does not exist");
+print(db.Language.drop() ? "successfuly dropped Language collection":"Language collection does not exist");
 
-db.createCollection("language", {
+db.createCollection("Language", {
     autoIndexId: true
 });
 try {
-    db.language.insertMany([
+    db.Language.insertMany([
         { name: "JavaScript", icon: null },
         { name: "Java", icon: null },
         { name: "C#", icon: null },
         { name: "HTML5", icon: null },
         { name: "Python", icon: null }
     ]);
-    print("successfuly populated language collection")
+    print("successfuly populated Language collection")
 } catch (e) {
     print(e);
 }

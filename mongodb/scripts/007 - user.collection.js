@@ -1,5 +1,5 @@
-print(db.user.drop() ? "successfuly dropped user collection":"user collection does not exist");
+print(db.User.drop() ? "successfuly dropped User collection":"User collection does not exist");
 
-db.createCollection("user", {
+db.createCollection("User", {
     autoIndexId: true
 });
