@@ -1,6 +1,6 @@
 import {HttpGet, Route, RoutePrefix} from '../decorators/route.decorator';
 import {Request, Response, Next} from 'restify';
-import {DatabaseService} from '../../dist/services/database.service';
+import {DatabaseService} from '../services/database.service';
 
 @RoutePrefix('status')
 export class StatusController {
