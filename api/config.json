@@ -1,0 +1,4 @@
+{
+  "tokenSecretKey": "@Geu:]blYm`KVyo:nv;aFL#j0-lfa+nH",
+  "databaseConnectionString": "mongodb://codersnotes-api:Password1@localhost:27017/codersnotes"
+}

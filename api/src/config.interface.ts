@@ -1,4 +1,4 @@
-export interface Config {
+export interface IConfig {
     tokenSecretKey: string;
     databaseConnectionString: string;
 }
@@ -6,9 +6,9 @@ export interface Config {
 /*
 Example config to be placed in config.ts
 
-import { Config } from './config.interface';
+import { IConfig } from './config.interface';
 
-export const config: Config = {
+export const config: IConfig = {
     tokenSecretKey: ''
 };
 

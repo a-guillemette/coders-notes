@@ -1,6 +1,5 @@
 import { MongoClient, Db, MongoError } from 'mongodb';
-
-import { config } from '../config';
+import {Config} from './config';
 
 export class DatabaseService {
     private static _instance: DatabaseService;
@@ -24,7 +23,7 @@ export class DatabaseService {
     }
 
     connect(onSuccess: (db: Db) => void, onError: (error: MongoError) => void) {
-        MongoClient.connect(config.databaseConnectionString, (error, db) => {
+        MongoClient.connect(Config.current.databaseConnectionString, (error, db) => {
             if (!error) {
                 this._db = db;
                 onSuccess(db);
