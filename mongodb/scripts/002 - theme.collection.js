@@ -1,10 +1,10 @@
-print(db.theme.drop() ? "successfuly dropped theme collection":"theme collection does not exist");
+print(db.Theme.drop() ? "successfuly dropped Theme collection":"Theme collection does not exist");
 
-db.createCollection("theme", {
+db.createCollection("Theme", {
     autoIndexId: true
 });
 try {
-    db.theme.insertMany([
+    db.Theme.insertMany([
         { name: "Red", backgroundColor: "#F44336", foregroundColor: "rgba(255,255,255,.87)" },
         { name: "Pink", backgroundColor: "#E91E63", foregroundColor: "rgba(255,255,255,.87)" },
         { name: "Purple", backgroundColor: "#9C27B0", foregroundColor: "rgba(255,255,255,.87)" },
@@ -25,7 +25,7 @@ try {
         { name: "Grey", backgroundColor: "#9E9E9E", foregroundColor: "rgba(0,0,0,.87)" },
         { name: "Blue Grey", backgroundColor: "#607D8B", foregroundColor: "rgba(255,255,255,.87)" }
     ]);
-    print("successfuly populated theme collection")
+    print("successfuly populated Theme collection")
 } catch (e) {
     print(e);
 }
