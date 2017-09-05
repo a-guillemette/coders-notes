@@ -1,7 +1,7 @@
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
 import { Request, Response, Next } from 'restify';
 
-import { User, UserOverview } from '@codersnotes/core';
+import { User, UserOverview, DataObject } from '@codersnotes/core';
 
 import { HttpDelete, HttpPut } from '../decorators/route.decorator';
 
@@ -30,20 +30,27 @@ export class UserController {
 
     @HttpPost @Route('')
     createUser(req: Request, res: Response, next: Next) {
-        const user = new User().set(req.body);
+        const user = DataObject.from(User, req.body);
         user.salt = AuthenticationService.instance.generateRandomString(16);
         user.password = AuthenticationService.instance.hash(user.password, user.salt);
         user.createdDate = new Date();
         user.imageId = undefined;
 
-        DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
+        const userOverview = new UserOverview().set(user);
+        console.log(user, userOverview);
+        res.send(200, userOverview);
+        next();
+
+        /*DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
             if (error) {
                 res.send(500);
             } else {
-                res.send(200, new UserOverview().set(user));
+                const userOverview = new UserOverview().set(user);
+                console.log();
+                res.send(200, userOverview);
             }
             next();
-        });
+        });*/
     }
 
     @HttpPut @Route('/:id')

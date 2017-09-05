@@ -22,4 +22,4 @@ export const Controllers: Array<any> = [
     SnippetController,
     UserController,
     VisibilityController
-];
+].sort((a, b) => a.name.localeCompare(b.name));

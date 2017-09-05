@@ -12,7 +12,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "es5",
-        "lib": ["es5", "dom"],
+        "lib": ["es2016", "dom"],
         "outDir": "../out-test/"
     },
     "exclude": [

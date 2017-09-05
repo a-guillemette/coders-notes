@@ -1,15 +1,7 @@
 export interface IConfig {
+    port: number;
+    debug: boolean;
+    logRoutes: boolean;
     tokenSecretKey: string;
     databaseConnectionString: string;
 }
-
-/*
-Example config to be placed in config.ts
-
-import { IConfig } from './config.interface';
-
-export const config: IConfig = {
-    tokenSecretKey: ''
-};
-
- */

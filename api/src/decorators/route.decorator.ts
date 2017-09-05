@@ -77,7 +77,7 @@ export function getControllerRoutes(target: Object): Array<RouteParams> {
         });
     }
 
-    return routes;
+    return routes.sort((a, b) => a.route.localeCompare(b.route));
 }
 
 function setMethod(method: HttpMethod, target: Object, propertyKey: string | symbol) {

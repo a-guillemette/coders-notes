@@ -1,11 +1,10 @@
-import { DataObject } from '../data-object';
-import { Prop } from '../decorators/prop.decorator';
+import { Prop, BaseDataObject } from '../data-object';
 
 import { FileId } from './file';
 
 export type UserId = any;
 
-export class User extends DataObject {
+export class User extends BaseDataObject {
     @Prop() _id: UserId;
     @Prop() email: string;
     @Prop() name: string;
@@ -15,7 +14,7 @@ export class User extends DataObject {
     @Prop() imageId?: FileId;
 }
 
-export class UserOverview extends DataObject {
+export class UserOverview extends BaseDataObject {
     @Prop() _id: UserId;
     @Prop() email: string;
     @Prop() name: string;
