@@ -1,7 +1,7 @@
+import { EmptyConstructor } from '../util';
 import { DataObjectProperty } from './data-object-property';
 import { DataObjectTypeHandler } from './type-handler/data-object.type-handler';
 import { DateTypeHandler } from './type-handler/date.type-handler';
-import { EmptyConstructor } from '../empty-constructor';
 import { TypeHandler } from './type-handler';
 
 declare const Reflect: any;

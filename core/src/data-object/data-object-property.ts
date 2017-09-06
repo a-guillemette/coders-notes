@@ -1,4 +1,4 @@
-import { EmptyConstructor } from '../empty-constructor';
+import { EmptyConstructor } from '../util';
 
 export interface DataObjectProperty {
     field: string | symbol;

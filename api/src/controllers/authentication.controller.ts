@@ -1,16 +1,18 @@
 import { Request, Response, Next } from 'restify';
 import * as _ from 'lodash';
 
-import { DatabaseService } from '../services/database.service';
-
 import {
+    DataObject,
     AuthenticationRequest,
     AuthenticationError,
     AuthenticationErrorCode,
-    User
+    User,
+    UserOverview
 } from '@codersnotes/core';
 
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
+
+import { DatabaseService } from '../services/database.service';
 
 @RoutePrefix('token')
 export class AuthenticationController {
@@ -45,11 +47,16 @@ export class AuthenticationController {
             const userSearchFilter = new User();
             userSearchFilter.email = username;
 
-            const collection = DatabaseService.db.collection<User>('user');
-            console.log(collection.findOne(userSearchFilter));
-
-            res.send(200);
-            next();
+            const collection = DatabaseService.db.collection<User>(User.name).findOne(userSearchFilter, (error, user) => {
+                if (error) {
+                    res.send(500);
+                } else if (!user) {
+                    res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_grant));
+                } else {
+                    res.send(200, DataObject.from(UserOverview, user));
+                }
+                next();
+            })
         }
     }
 }

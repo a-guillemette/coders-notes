@@ -4,6 +4,7 @@ import { Request, Response, Next } from 'restify';
 import { User, UserOverview, DataObject } from '@codersnotes/core';
 
 import { HttpDelete, HttpPut } from '../decorators/route.decorator';
+import { IdFilter } from '../filter/id-filter';
 
 import { AuthenticationService } from '../services/authentication.service';
 import { DatabaseService } from '../services/database.service';
@@ -36,21 +37,14 @@ export class UserController {
         user.createdDate = new Date();
         user.imageId = undefined;
 
-        const userOverview = new UserOverview().set(user);
-        console.log(user, userOverview);
-        res.send(200, userOverview);
-        next();
-
-        /*DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
+        DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
             if (error) {
                 res.send(500);
             } else {
-                const userOverview = new UserOverview().set(user);
-                console.log();
-                res.send(200, userOverview);
+                res.send(200, DataObject.from(UserOverview, user));
             }
             next();
-        });*/
+        });
     }
 
     @HttpPut @Route('/:id')
@@ -61,7 +55,15 @@ export class UserController {
 
     @HttpDelete @Route(':id')
     deleteUser(req: Request, res: Response, next: Next) {
-        res.send(200, 'want som fk');
-        next();
+        DatabaseService.db.collection(User.name).deleteOne(new IdFilter(req.params.id), (error, result) => {
+            if (error) {
+                res.send(500);
+            } else if (result.deletedCount > 0) {
+                res.send(200);
+            } else {
+                res.send(404);
+            }
+            next();
+        });
     }
 }
