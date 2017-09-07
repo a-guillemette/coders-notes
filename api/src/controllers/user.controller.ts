@@ -25,8 +25,16 @@ export class UserController {
 
     @HttpGet @Route('/:id')
     getUser(req: Request, res: Response, next: Next) {
-        res.send(200, 'want som fk');
-        next();
+        DatabaseService.db.collection(User.name).findOne(new IdFilter(req.params.id), (error, result) => {
+            if (error) {
+                res.send(500);
+            } else if (!result) {
+                res.send(400);
+            } else {
+                res.send(200, DataObject.from(UserOverview, result));
+            }
+            next();
+        });
     }
 
     @HttpPost @Route('')

@@ -3,13 +3,9 @@ import { ObjectID } from 'bson';
 export class IdFilter {
     [index: string]: any;
 
-    private __objectId: ObjectID;
+    _id: ObjectID;
 
     constructor(id: string | number | ObjectID) {
-        this.__objectId = new ObjectID(id);
-    }
-
-    get _id(): any {
-        return this.__objectId;
+        this._id = new ObjectID(id);
     }
 }
