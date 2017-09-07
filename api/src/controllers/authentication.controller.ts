@@ -56,7 +56,7 @@ export class AuthenticationController {
                     res.send(200, DataObject.from(UserOverview, user));
                 }
                 next();
-            })
+            });
         }
     }
 }

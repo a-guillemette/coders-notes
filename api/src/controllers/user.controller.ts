@@ -9,6 +9,13 @@ import { IdFilter } from '../filter/id-filter';
 import { AuthenticationService } from '../services/authentication.service';
 import { DatabaseService } from '../services/database.service';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/operator/mergeMap';
+
+import { UpdateWriteOpResult } from 'mongodb';
+
 @RoutePrefix('user')
 export class UserController {
     @HttpGet @Route('')
@@ -25,16 +32,20 @@ export class UserController {
 
     @HttpGet @Route('/:id')
     getUser(req: Request, res: Response, next: Next) {
-        DatabaseService.db.collection(User.name).findOne(new IdFilter(req.params.id), (error, result) => {
-            if (error) {
+        DatabaseService.db.collection(User.name)
+            .findOne(new IdFilter(req.params.id))
+            .then(result => {
+                if (!result) {
+                    res.send(404);
+                } else {
+                    res.send(200, DataObject.from(UserOverview, result));
+                }
+                next();
+            })
+            .catch(error => {
                 res.send(500);
-            } else if (!result) {
-                res.send(400);
-            } else {
-                res.send(200, DataObject.from(UserOverview, result));
-            }
-            next();
-        });
+                next();
+            });
     }
 
     @HttpPost @Route('')
@@ -57,8 +68,38 @@ export class UserController {
 
     @HttpPut @Route('/:id')
     editUser(req: Request, res: Response, next: Next) {
-        res.send(200, 'want som fk');
-        next();
+        // Do not refactor using this method yet, might refactor and remove the findOne to use only updateOne. Need investigation...
+
+        // Check req.params.id is not null...
+
+        const userEdit = DataObject.from(User, req.body);
+        // Validate userEdit...
+
+        let editedObject: User;
+        Observable.fromPromise(DatabaseService.db.collection(User.name).findOne(new IdFilter(req.params.id)))
+            .flatMap(result => {
+                if (result) {
+                    editedObject = result;
+                    editedObject.name = userEdit.name;
+                    editedObject.imageId = userEdit.imageId;
+                    return DatabaseService.db.collection(User.name).updateOne(new IdFilter(req.params.id), editedObject);
+                } else {
+                    res.send(404);
+                    next();
+                    return Observable.empty<UpdateWriteOpResult>();
+                }
+            })
+            .subscribe(result => {
+                if (result.matchedCount > 0) {
+                    res.send(200, DataObject.from(UserOverview, editedObject));
+                } else {
+                    res.send(404);
+                }
+                next();
+            }, error => {
+                res.send(500);
+                next();
+            });
     }
 
     @HttpDelete @Route(':id')
