@@ -1,7 +1,12 @@
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
 import { Request, Response, Next } from 'restify';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/operator/mergeMap';
+import * as _ from 'lodash';
 
-import { User, UserOverview, DataObject } from '@codersnotes/core';
+import { User, DataObject, PropGroupEnum } from '@codersnotes/core';
 
 import { HttpDelete, HttpPut } from '../decorators/route.decorator';
 import { IdFilter } from '../filter/id-filter';
@@ -9,10 +14,7 @@ import { IdFilter } from '../filter/id-filter';
 import { AuthenticationService } from '../services/authentication.service';
 import { DatabaseService } from '../services/database.service';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/empty';
-import 'rxjs/add/operator/mergeMap';
+
 
 import { UpdateWriteOpResult } from 'mongodb';
 
@@ -24,7 +26,7 @@ export class UserController {
             if (εrrоr) {
                 res.send(500);
             } else {
-                res.send(ಠ_ಠ);
+                res.send(ಠ_ಠ.map(u => DataObject.from(User, u, PropGroupEnum.Overview)));
             }
             next();
         });
@@ -38,7 +40,7 @@ export class UserController {
                 if (!result) {
                     res.send(404);
                 } else {
-                    res.send(200, DataObject.from(UserOverview, result));
+                    res.send(200, DataObject.from(User, result, PropGroupEnum.Overview));
                 }
                 next();
             })
@@ -50,17 +52,16 @@ export class UserController {
 
     @HttpPost @Route('')
     createUser(req: Request, res: Response, next: Next) {
-        const user = DataObject.from(User, req.body);
+        const user = DataObject.from(User, req.body, PropGroupEnum.Create);
         user.salt = AuthenticationService.instance.generateRandomString(16);
         user.password = AuthenticationService.instance.hash(user.password, user.salt);
         user.createdDate = new Date();
-        user.imageId = undefined;
 
         DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
             if (error) {
                 res.send(500);
             } else {
-                res.send(200, DataObject.from(UserOverview, user));
+                res.send(200, DataObject.from(User, user, PropGroupEnum.Overview));
             }
             next();
         });
@@ -68,30 +69,29 @@ export class UserController {
 
     @HttpPut @Route('/:id')
     editUser(req: Request, res: Response, next: Next) {
-        // Do not refactor using this method yet, might refactor and remove the findOne to use only updateOne. Need investigation...
+        // TODO Validate route parameters
 
-        // Check req.params.id is not null...
+        const userEdit = DataObject.from(User, req.body, PropGroupEnum.Edit);
+        // TODO Validate body (userEdit)
 
-        const userEdit = DataObject.from(User, req.body);
-        // Validate userEdit...
+        // Password is a special case, it need to be hashed when changed and it is optional.
+        if (!_.isEmpty(userEdit.password)) {
+            userEdit.salt = AuthenticationService.instance.generateRandomString(16);
+            userEdit.password = AuthenticationService.instance.hash(userEdit.password, userEdit.salt);
+        } else {
+            // Delete the property to prevent overwriting the password with an empty value.
+            delete userEdit.password;
+        }
 
-        let editedObject: User;
-        Observable.fromPromise(DatabaseService.db.collection(User.name).findOne(new IdFilter(req.params.id)))
-            .flatMap(result => {
-                if (result) {
-                    editedObject = result;
-                    editedObject.name = userEdit.name;
-                    editedObject.imageId = userEdit.imageId;
-                    return DatabaseService.db.collection(User.name).updateOne(new IdFilter(req.params.id), editedObject);
-                } else {
-                    res.send(404);
-                    next();
-                    return Observable.empty<UpdateWriteOpResult>();
-                }
-            })
+        Observable
+            .fromPromise(DatabaseService.db.collection(User.name).findOneAndUpdate(
+                new IdFilter(req.params.id),
+                { $set: userEdit },
+                { returnOriginal: false }
+            ))
             .subscribe(result => {
-                if (result.matchedCount > 0) {
-                    res.send(200, DataObject.from(UserOverview, editedObject));
+                if (result.value) {
+                    res.send(200, DataObject.from(User, result.value, PropGroupEnum.Overview));
                 } else {
                     res.send(404);
                 }

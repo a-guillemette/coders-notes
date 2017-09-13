@@ -3,11 +3,11 @@ import * as _ from 'lodash';
 
 import {
     DataObject,
+    PropGroupEnum,
     AuthenticationRequest,
     AuthenticationError,
     AuthenticationErrorCode,
-    User,
-    UserOverview
+    User
 } from '@codersnotes/core';
 
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
@@ -53,7 +53,7 @@ export class AuthenticationController {
                 } else if (!user) {
                     res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_grant));
                 } else {
-                    res.send(200, DataObject.from(UserOverview, user));
+                    res.send(200, DataObject.from(User, user, PropGroupEnum.Overview));
                 }
                 next();
             });

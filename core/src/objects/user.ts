@@ -1,23 +1,29 @@
-import { Prop, BaseDataObject } from '../data-object';
+import { Prop, PropGroup, BaseDataObject } from '../data-object';
+import { PropGroupEnum as PG } from '../prop-group.enum';
 
 import { FileId } from './file';
 
 export type UserId = any;
 
 export class User extends BaseDataObject {
-    @Prop() _id: UserId;
-    @Prop() email: string;
-    @Prop() name: string;
-    @Prop() password: string;
-    @Prop() salt: string;
-    @Prop(Date) createdDate: Date;
-    @Prop() imageId?: FileId;
-}
+    @Prop() @PropGroup(PG.Overview)
+    _id: UserId;
 
-export class UserOverview extends BaseDataObject {
-    @Prop() _id: UserId;
-    @Prop() email: string;
-    @Prop() name: string;
-    @Prop(Date) createdDate: Date;
-    @Prop() imageId?: FileId;
+    @Prop() @PropGroup(PG.Overview | PG.Create)
+    email: string;
+
+    @Prop() @PropGroup(PG.Overview | PG.Create | PG.Edit)
+    name: string;
+
+    @Prop() @PropGroup(PG.Create | PG.Edit)
+    password: string;
+
+    @Prop()
+    salt: string;
+
+    @Prop(Date) @PropGroup(PG.Overview)
+    createdDate: Date;
+
+    @Prop() @PropGroup(PG.Overview | PG.Create | PG.Edit)
+    imageId?: FileId;
 }

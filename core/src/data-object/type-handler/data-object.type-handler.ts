@@ -38,12 +38,12 @@ export class DataObjectTypeHandler implements TypeHandler<Object> {
         return clone;
     }
 
-    set(dataObject: any, dto: Object | any) {
+    set(dataObject: any, dto: Object | any, group?: number) {
         if (!dataObject) {
             return;
         }
 
-        const properties = DataObject.getProperties(dataObject);
+        const properties = DataObject.getProperties(dataObject, group);
         const nbProperties = properties ? properties.length : 0;
 
         if (nbProperties > 0) {

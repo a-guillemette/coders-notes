@@ -23,8 +23,12 @@ export class DataObject {
         }
     }
 
-    static getProperties(dataObject: Object): Array<DataObjectProperty> {
-        return Reflect.getMetadata('properties', dataObject) || [];
+    static getProperties(dataObject: Object, group?: number): Array<DataObjectProperty> {
+        let properties: Array<DataObjectProperty> = Reflect.getMetadata('properties', dataObject) || [];
+        if (group > 0) {
+            properties = properties.filter(p => (p.group & group) === group);
+        }
+        return properties;
     }
 
     static setProperties(dataObject: Object, properties: Array<DataObjectProperty>) {
@@ -40,15 +44,15 @@ export class DataObject {
         return typeHandler.clone(dataObject);
     }
 
-    static set<T extends Object>(dataObject: T, dto: T | any): T {
+    static set<T extends Object>(dataObject: T, dto: T | any, group?: number): T {
         const typeHandler = DataObject.getTypeHandler(dataObject.constructor as EmptyConstructor<T>);
-        typeHandler.set(dataObject, dto);
+        typeHandler.set(dataObject, dto, group);
         return dataObject;
     }
 
-    static from<T extends Object>(type: EmptyConstructor<T>, dto: any): T {
+    static from<T extends Object>(type: EmptyConstructor<T>, dto: any, group?: number): T {
         const instance = new type();
-        DataObject.set(instance, dto);
+        DataObject.set(instance, dto, group);
         return instance;
     }
 

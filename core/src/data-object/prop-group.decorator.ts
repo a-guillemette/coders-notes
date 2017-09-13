@@ -1,15 +1,15 @@
 import { DataObject } from './data-object';
 
-export function Prop(type?: { new(): DataObject | Date; }) {
+export function PropGroup(group: number) {
     return (target: DataObject, propertyKey: string | symbol) => {
         const properties = DataObject.getProperties(target);
         const prop = properties.find(p => p.field === propertyKey);
         if (prop) {
-            prop.type = type;
+            prop.group = group;
         } else {
             properties.push({
                 field: propertyKey,
-                type: type
+                group: group
             });
         }
         DataObject.setProperties(target, properties);
