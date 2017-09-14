@@ -11,28 +11,26 @@ import {Observable} from 'rxjs/Observable';
 export class LabelController {
 	@HttpGet @Route('')
 	getLabels(req: Request, res: Response, next: Next) {
-		DatabaseService.db.collection(Label.name)
-			.find<Label>().toArray()
-			.then(labels => {
-				res.send(200, labels);
-				next();
-			})
-			.catch(error => {
-				res.send(500, error);
+		Observable.fromPromise(DatabaseService.db.collection(Label.name).find<Label>().toArray())
+			.subscribe(result => {
+				if (result) {
+					res.send(200, result);
+				} else {
+					res.send(500);
+				}
 				next();
 			});
 	}
 
 	@HttpGet @Route('/:id')
 	getLabel(req: Request, res: Response, next: Next) {
-		DatabaseService.db.collection(Label.name)
-			.findOne<Label>(new IdFilter(req.params.id))
-			.then(label => {
-				res.send(200, label);
-				next();
-			})
-			.catch(error => {
-				res.send(500, error);
+		Observable.fromPromise(DatabaseService.db.collection(Label.name).findOne<Label>(new IdFilter(req.params.id)))
+			.subscribe(result => {
+				if (result) {
+					res.send(200, result);
+				} else {
+					res.send(500);
+				}
 				next();
 			});
 	}
@@ -90,14 +88,13 @@ export class LabelController {
 
 	@HttpDelete @Route('/:id')
 	removeLabel(req: Request, res: Response, next: Next) {
-		DatabaseService.db.collection(Label.name)
-			.deleteOne(new IdFilter(req.params.id))
-			.then(result => {
-				res.send(200, result);
-				next();
-			})
-			.catch(error => {
-				res.send(500, error);
+		Observable.fromPromise(DatabaseService.db.collection(Label.name).deleteOne(new IdFilter(req.params.id)))
+			.subscribe(result => {
+				if (result) {
+					res.send(200, result);
+				} else {
+					res.send(500);
+				}
 				next();
 			});
 	}
