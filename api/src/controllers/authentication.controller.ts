@@ -1,5 +1,6 @@
 import { Request, Response, Next } from 'restify';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
 
 import {
     DataObject,
@@ -13,50 +14,47 @@ import {
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
 
 import { DatabaseService } from '../services/database.service';
+import { ApiController } from './api-controller';
+import { HttpMessage } from '../http-message';
 
 @RoutePrefix('token')
-export class AuthenticationController {
+export class AuthenticationController extends ApiController {
     @HttpPost @Route('')
-    authenticate(req: Request, res: Response, next: Next) {
+    authenticate(req: Request): HttpMessage | Observable<HttpMessage> {
         const authenticationRequest = req.body as AuthenticationRequest;
 
         if (!authenticationRequest) {
-            res.send(400, 'Body is required');
-            next();
+            return this.badRequest('Body is required');
         } else {
             switch (authenticationRequest.grant_type) {
                 case 'password':
-                    this.authenticatePassword(res, next, authenticationRequest.scope, authenticationRequest.username, authenticationRequest.password);
-                    break;
+                    return this.authenticatePassword(authenticationRequest.scope, authenticationRequest.username, authenticationRequest.password);
                 case 'refresh_token':
-                    res.send(501, 'Not implemented');
-                    next();
-                    break;
+                    return this.notImplemented();
                 default:
-                    res.send(400, new AuthenticationError(AuthenticationErrorCode.unsupported_grant_type));
-                    next();
+                    return this.badRequest(new AuthenticationError(AuthenticationErrorCode.unsupported_grant_type));
             }
         }
     }
 
-    private authenticatePassword(res: Response, next: Next, scope: string, username: string, password: string) {
+    private authenticatePassword(scope: string, username: string, password: string): HttpMessage | Observable<HttpMessage> {
         if (!_.isString(username) || !_.isString(password)) {
-            res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_request));
-            next();
+            return this.badRequest(new AuthenticationError(AuthenticationErrorCode.invalid_request));
         } else {
             const userSearchFilter = new User();
             userSearchFilter.email = username;
 
-            const collection = DatabaseService.db.collection<User>(User.name).findOne(userSearchFilter, (error, user) => {
-                if (error) {
-                    res.send(500);
-                } else if (!user) {
-                    res.send(400, new AuthenticationError(AuthenticationErrorCode.invalid_grant));
-                } else {
-                    res.send(200, DataObject.from(User, user, PropGroupEnum.Overview));
-                }
-                next();
-            });
+            return DatabaseService.db
+                .collection<User>(User.name)
+                .findOne(userSearchFilter)
+                .toObservable()
+                .map(user => {
+                    if (user) {
+                        return this.ok(DataObject.from(User, user, PropGroupEnum.Overview));
+                    } else {
+                        return this.badRequest(new AuthenticationError(AuthenticationErrorCode.invalid_grant));
+                    }
+                });
         }
     }
 }

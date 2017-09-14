@@ -1,74 +1,59 @@
 import { HttpGet, HttpPost, Route, RoutePrefix } from '../decorators/route.decorator';
 import { Request, Response, Next } from 'restify';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/empty';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import * as _ from 'lodash';
 
 import { User, DataObject, PropGroupEnum } from '@codersnotes/core';
 
+import '../util/promise-to-observable';
 import { HttpDelete, HttpPut } from '../decorators/route.decorator';
 import { IdFilter } from '../filter/id-filter';
 
 import { AuthenticationService } from '../services/authentication.service';
 import { DatabaseService } from '../services/database.service';
-
-
-
-import { UpdateWriteOpResult } from 'mongodb';
+import { HttpMessage } from '../http-message';
+import { ApiController } from './api-controller';
 
 @RoutePrefix('user')
-export class UserController {
+export class UserController extends ApiController {
     @HttpGet @Route('')
-    getUsers(req: Request, res: Response, next: Next) {
-        DatabaseService.db.collection(User.name).find<User>().toArray((εrrоr, ಠ_ಠ) => {
-            if (εrrоr) {
-                res.send(500);
-            } else {
-                res.send(ಠ_ಠ.map(u => DataObject.from(User, u, PropGroupEnum.Overview)));
-            }
-            next();
-        });
+    getUsers() {
+        return DatabaseService.db
+            .collection(User.name)
+            .find<User>()
+            .toArray()
+            .toObservable()
+            .map(users => users.map(u => DataObject.from(User, u, PropGroupEnum.Overview)));
     }
 
     @HttpGet @Route('/:id')
-    getUser(req: Request, res: Response, next: Next) {
-        DatabaseService.db.collection(User.name)
+    getUser(req: Request) {
+        return DatabaseService.db
+            .collection(User.name)
             .findOne(new IdFilter(req.params.id))
-            .then(result => {
-                if (!result) {
-                    res.send(404);
-                } else {
-                    res.send(200, DataObject.from(User, result, PropGroupEnum.Overview));
-                }
-                next();
-            })
-            .catch(error => {
-                res.send(500);
-                next();
-            });
+            .toObservable()
+            .map(user => DataObject.from(User, user, PropGroupEnum.Overview));
     }
 
     @HttpPost @Route('')
-    createUser(req: Request, res: Response, next: Next) {
-        const user = DataObject.from(User, req.body, PropGroupEnum.Create);
-        user.salt = AuthenticationService.instance.generateRandomString(16);
-        user.password = AuthenticationService.instance.hash(user.password, user.salt);
-        user.createdDate = new Date();
+    createUser(req: Request) {
+        const newUser = DataObject.from(User, req.body, PropGroupEnum.Create);
+        newUser.salt = AuthenticationService.instance.generateRandomString(16);
+        newUser.password = AuthenticationService.instance.hash(newUser.password, newUser.salt);
+        newUser.createdDate = new Date();
 
-        DatabaseService.db.collection(User.name).insertOne(user, (error, result) => {
-            if (error) {
-                res.send(500);
-            } else {
-                res.send(200, DataObject.from(User, user, PropGroupEnum.Overview));
-            }
-            next();
-        });
+        return DatabaseService.db
+            .collection(User.name)
+            .insertOne(newUser)
+            .toObservable()
+            .map(user => DataObject.from(User, user, PropGroupEnum.Overview));
     }
 
     @HttpPut @Route('/:id')
-    editUser(req: Request, res: Response, next: Next) {
+    editUser(req: Request): Observable<User> {
         // TODO Validate route parameters
 
         const userEdit = DataObject.from(User, req.body, PropGroupEnum.Edit);
@@ -83,36 +68,23 @@ export class UserController {
             delete userEdit.password;
         }
 
-        Observable
-            .fromPromise(DatabaseService.db.collection(User.name).findOneAndUpdate(
+        return DatabaseService.db
+            .collection(User.name)
+            .findOneAndUpdate(
                 new IdFilter(req.params.id),
                 { $set: userEdit },
                 { returnOriginal: false }
-            ))
-            .subscribe(result => {
-                if (result.value) {
-                    res.send(200, DataObject.from(User, result.value, PropGroupEnum.Overview));
-                } else {
-                    res.send(404);
-                }
-                next();
-            }, error => {
-                res.send(500);
-                next();
-            });
+            )
+            .toObservable()
+            .map(result => DataObject.from(User, result.value, PropGroupEnum.Overview));
     }
 
     @HttpDelete @Route(':id')
-    deleteUser(req: Request, res: Response, next: Next) {
-        DatabaseService.db.collection(User.name).deleteOne(new IdFilter(req.params.id), (error, result) => {
-            if (error) {
-                res.send(500);
-            } else if (result.deletedCount > 0) {
-                res.send(200);
-            } else {
-                res.send(404);
-            }
-            next();
-        });
+    deleteUser(req: Request) {
+        return DatabaseService.db
+            .collection(User.name)
+            .deleteOne(new IdFilter(req.params.id))
+            .toObservable()
+            .map(result => result.deletedCount > 0 ? this.ok() : this.notFound());
     }
 }

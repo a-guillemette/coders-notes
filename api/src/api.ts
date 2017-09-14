@@ -1,8 +1,9 @@
 // *** Import Reflect Metadata only once ***
 import 'reflect-metadata';
 
-import { createServer, Server, ServerOptions, bodyParser } from 'restify';
+import { createServer, Server, ServerOptions, bodyParser, Next, Request, Response } from 'restify';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpMethod } from './http-method.enum';
 import { RouteParams, getControllerRoutes } from './decorators/route.decorator';
@@ -10,6 +11,7 @@ import { Controllers } from './controllers';
 
 import { DatabaseService } from './services/database.service';
 import { Config } from './services/config';
+import { HttpMessage } from './http-message';
 
 console.log('Reading config file...');
 if (Config.instance.load()) {
@@ -78,19 +80,55 @@ function registerRoute(server: Server) {
             }
             switch (route.method) {
                 case HttpMethod.get:
-                    server.get(route.route, controller[route.propertyKey].bind(controller));
+                    server.get(route.route, createHandler(controller, route.propertyKey));
                     break;
                 case HttpMethod.post:
-                    server.post(route.route, controller[route.propertyKey].bind(controller));
+                    server.post(route.route, createHandler(controller, route.propertyKey));
                     break;
                 case HttpMethod.put:
-                    server.put(route.route, controller[route.propertyKey].bind(controller));
+                    server.put(route.route, createHandler(controller, route.propertyKey));
                     break;
                 case HttpMethod.delete:
-                    server.del(route.route, controller[route.propertyKey].bind(controller));
+                    server.del(route.route, createHandler(controller, route.propertyKey));
                     break;
             }
         }
     }
 }
 
+function createHandler(controller: any, methodPropertyKey: string | symbol) {
+    return (req: Request, res: Response, next: Next) => {
+        const result = controller[methodPropertyKey].bind(controller)(req, res, next);
+        if (result instanceof Observable) {
+            result.subscribe(response => {
+                sendResponse(res, response);
+            }, error => {
+                res.send(500);
+                next();
+            }, () => {
+                next();
+            });
+        } else if (result instanceof Promise) {
+            result.then(response => {
+                sendResponse(res, response);
+                next();
+            }, rejected => {
+                res.send(500);
+                next();
+            });
+        } else {
+            sendResponse(res, result);
+            next();
+        }
+    }
+}
+
+function sendResponse(res: Response, message: any) {
+    if (message instanceof HttpMessage) {
+        res.send(message.status, message.body);
+    } else if (message) {
+        res.send(200, message);
+    } else {
+        res.send(404);
+    }
+}

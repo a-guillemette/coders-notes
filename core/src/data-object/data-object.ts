@@ -40,8 +40,12 @@ export class DataObject {
     }
 
     static clone<T extends Object>(dataObject: T): T {
-        const typeHandler = DataObject.getTypeHandler(dataObject.constructor as EmptyConstructor<T>);
-        return typeHandler.clone(dataObject);
+        if (dataObject) {
+            const typeHandler = DataObject.getTypeHandler(dataObject.constructor as EmptyConstructor<T>);
+            return typeHandler.clone(dataObject);
+        } else {
+            return undefined;
+        }
     }
 
     static set<T extends Object>(dataObject: T, dto: T | any, group?: number): T {
@@ -51,9 +55,13 @@ export class DataObject {
     }
 
     static from<T extends Object>(type: EmptyConstructor<T>, dto: any, group?: number): T {
-        const instance = new type();
-        DataObject.set(instance, dto, group);
-        return instance;
+        if (dto) {
+            const instance = new type();
+            DataObject.set(instance, dto, group);
+            return instance;
+        } else {
+            return undefined;
+        }
     }
 
     static equals<T extends Object>(dataObject1: T, dataObject2: T): boolean {
