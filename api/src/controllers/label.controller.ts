@@ -62,7 +62,7 @@ export class LabelController extends ApiController {
     @HttpPut @Route('/:id')
     editLabel(req: Request) {
         const label = DataObject.from(Label, req.body, PropGroupEnum.Edit);
-
+        // TODO Check if label already exists
         return DatabaseService.db
             .collection(Label.name)
             .findOneAndUpdate(
