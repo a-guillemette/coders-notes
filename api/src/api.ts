@@ -53,6 +53,12 @@ function initServer() {
     server.listen(port, () => {
         console.log('\r\n%s listening at %s\r\n', server.name, server.url);
     });
+
+    process.on('SIGINT', function() {
+        server.close();
+        DatabaseService.instance.close();
+        console.log('EXIT');
+    });
 }
 
 function registerRoute(server: Server) {

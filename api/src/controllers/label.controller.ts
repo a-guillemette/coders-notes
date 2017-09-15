@@ -1,102 +1,85 @@
 import { Request, Response, Next } from 'restify';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import '../util/promise-to-observable';
 
-import { Label, DataObject } from '@codersnotes/core';
+import { Label, DataObject, PropGroupEnum } from '@codersnotes/core';
 import { HttpGet, HttpDelete, HttpPost, HttpPut, Route, RoutePrefix } from '../decorators/route.decorator';
 
 import { IdFilter } from '../filter/id-filter';
 import { DatabaseService } from '../services/database.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
+import { ApiController } from './api-controller';
+import { HttpMessage } from '../http-message';
 
 @RoutePrefix('label')
-export class LabelController {
+export class LabelController extends ApiController {
     @HttpGet @Route('')
-    getLabels(req: Request, res: Response, next: Next) {
-        Observable.fromPromise(DatabaseService.db.collection(Label.name).find<Label>().toArray())
-            .subscribe(result => {
-                if (result) {
-                    res.send(200, result);
-                } else {
-                    res.send(500);
-                }
-                next();
-            });
+    getLabels(req: Request) {
+        return DatabaseService.db
+            .collection(Label.name)
+            .find<Label>()
+            .toArray();
     }
 
     @HttpGet @Route('/:id')
-    getLabel(req: Request, res: Response, next: Next) {
-        Observable.fromPromise(DatabaseService.db.collection(Label.name).findOne<Label>(new IdFilter(req.params.id)))
-            .subscribe(result => {
-                if (result) {
-                    res.send(200, result);
-                } else {
-                    res.send(500);
-                }
-                next();
-            });
+    getLabel(req: Request) {
+        return DatabaseService.db
+            .collection(Label.name)
+            .findOne<Label>(new IdFilter(req.params.id));
     }
 
     @HttpPost @Route('')
-    createLabel(req: Request, res: Response, next: Next) {
-        const labelFilter = new Label();
-        labelFilter.text = req.body.text;
+    createLabel(req: Request) {
+        const label = DataObject.from(Label, req.body, PropGroupEnum.Create);
 
-        Observable.fromPromise(DatabaseService.db.collection(Label.name).findOne<Label>(labelFilter))
+        const duplicateSearch = new Label();
+        duplicateSearch.text = label.text;
+
+        return DatabaseService.db
+            .collection(Label.name)
+            .findOne<Label>(duplicateSearch)
+            .toObservable()
             .flatMap(result => {
                 if (result) {
-                    res.send(400);
-                    next();
-                    return null;
+                    return Observable.of<any>(this.badRequest('Label with this name already exist.'));
                 } else {
-                    return DatabaseService.db.collection(Label.name).insertOne(labelFilter);
+                    return DatabaseService.db
+                        .collection(Label.name)
+                        .insertOne(label)
+                        .toObservable()
+                        .map(insertResult => {
+                            if (insertResult.insertedCount > 0) {
+                                return this.ok(insertResult.ops[0]);
+                            } else {
+                                return this.internalServerError();
+                            }
+                        });
                 }
-            })
-            .subscribe(result => {
-                if (result) {
-                    res.send(200, result);
-                }
-                next();
-            }, error => {
-                res.send(500);
-                next();
             });
     }
 
     @HttpPut @Route('/:id')
-    updateLabel(req: Request, res: Response, next: Next) {
-        // TODO Find a way to implement operators that makes sense and is reusable
-        let tmp = {
-            $set: {
-                text: req.body.text
-            }
-        };
+    editLabel(req: Request) {
+        const label = DataObject.from(Label, req.body, PropGroupEnum.Edit);
 
-        Observable.fromPromise(DatabaseService.db.collection(Label.name).findOneAndUpdate(new IdFilter(req.params.id), tmp, {
-                returnOriginal: false
-            }))
-            .subscribe(result => {
-                if (result.value) {
-                    res.send(200, result.value);
-                } else {
-                    res.send(404);
-                }
-                next();
-            }, error => {
-                res.send(500);
-                next();
-            });
+        return DatabaseService.db
+            .collection(Label.name)
+            .findOneAndUpdate(
+                new IdFilter(req.params.id),
+                { $set: label },
+                { returnOriginal: false }
+            )
+            .toObservable()
+            .map(result => result.value);
     }
 
     @HttpDelete @Route('/:id')
-    removeLabel(req: Request, res: Response, next: Next) {
-        Observable.fromPromise(DatabaseService.db.collection(Label.name).deleteOne(new IdFilter(req.params.id)))
-            .subscribe(result => {
-                if (result) {
-                    res.send(200, result);
-                } else {
-                    res.send(500);
-                }
-                next();
-            });
+    deleteLabel(req: Request) {
+        return DatabaseService.db
+            .collection(Label.name)
+            .deleteOne(new IdFilter(req.params.id))
+            .toObservable()
+            .map(result => result.deletedCount > 0 ? this.ok() : this.notFound());
     }
 }
