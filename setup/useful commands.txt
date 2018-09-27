@@ -1,0 +1,9 @@
+start "" "c:\program files (x86)\google\chrome\application\chrome.exe" --new-window "http://localhost:4200/"
+
+ng serve
+
+yarn watch build
+
+yarn start
+
+linklocal

@@ -1,0 +1,6 @@
+1.	Uninstall Everything and delete all folders related to nodejs and npm and yarn
+2.	Install NodeJs without NPM
+3.	Install Yarn
+4.	ng set --global packageManager=yarn
+5.	yarn global add @angular/cli
+6.	yarn global add linklocal
