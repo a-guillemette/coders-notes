@@ -4,4 +4,4 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="./lib/bootstrap/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
-	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
